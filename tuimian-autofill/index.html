@@ -17,8 +17,9 @@
     main{padding:42px 0 72px}.card{margin:0 0 20px;padding:26px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 24px #152b5b0b}h2{margin:0 0 18px;font-size:25px}h3{margin:22px 0 7px;font-size:18px}
     ol,ul{padding-left:24px}code{padding:2px 6px;border-radius:5px;background:#eef2f7;font-family:Consolas,monospace;overflow-wrap:anywhere;word-break:break-word}.notice{padding:15px 17px;border-left:4px solid var(--green);border-radius:8px;background:#eefaf5;color:#075d3b}.warn{border-left-color:#d97706;background:#fff8e8;color:#7c4700}
     .upgrade{border-color:#f3ca78;background:linear-gradient(135deg,#fffdf7,#fff9e9)}.upgrade h2{color:#7c4700}.upgrade .must{font-weight:800;color:#a13f16}.upgrade .fallback{margin-top:16px;padding:14px 16px;border-radius:10px;background:#fff;border:1px dashed #d8a542}
+    .table-scroll{overflow-x:auto}.support-table{width:100%;border-collapse:collapse;min-width:700px}.support-table th,.support-table td{padding:12px 14px;border:1px solid var(--line);text-align:left;vertical-align:top}.support-table th{background:var(--soft);font-size:14px}.status{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:750;white-space:nowrap}.verified{background:#e8f8ef;color:#087a4b}.experimental{background:#fff4da;color:#8a5700}
     .meta{color:var(--muted);font-size:14px}.footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);text-align:center;font-size:14px}
-    @media(max-width:560px){.hero{padding-top:48px}.stats{grid-template-columns:1fr}.btn{width:100%}.card{padding:20px}}
+    @media(max-width:560px){.hero{padding-top:48px}.stats{grid-template-columns:1fr}.btn{width:100%}.card{padding:20px}.support-table{min-width:0}.support-table thead{display:none}.support-table tbody,.support-table tr,.support-table td{display:block;width:100%}.support-table tr{margin-bottom:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.support-table td{border:0;border-bottom:1px solid var(--line);padding:10px 12px}.support-table td:last-child{border-bottom:0}.support-table td::before{content:attr(data-label);display:block;margin-bottom:3px;color:var(--muted);font-size:12px;font-weight:700}}
   </style>
 </head>
 <body>
@@ -102,6 +103,65 @@
         <li>确认所有内容正确后，由你本人点击网站的提交按钮。</li>
       </ol>
       <div class="notice">扩展不会自动提交报名表。绿色代表已填，红色代表需要人工处理，黄色代表档案中没有对应内容。</div>
+    </section>
+
+    <section class="card" id="profile-crawl">
+      <h2>哪些学校可以提取个人档案？怎么操作？</h2>
+      <p>扩展有两种提取方式：<strong>从本页提取档案</strong>读取你当前打开页面里已经填写的内容；<strong>登录后会话爬取</strong>按学校适配包声明的同源只读白名单一次读取多个资料栏目。两种方式都只在本机处理，都会先给出预览，只有你确认后才合并到本地档案。</p>
+
+      <h3>方式一：从本页提取档案（通用，推荐先用）</h3>
+      <p>适用于所有能显示扩展悬浮面板的已登录报名页面，包括暂时没有学校专用适配包的页面。它不是后台批量爬取，只读取当前页中可识别、已经有值的字段。</p>
+      <ol>
+        <li>人工登录学校报名系统，并人工完成验证码或短信验证。</li>
+        <li>打开已经填写过资料的具体表单页。</li>
+        <li>点击右侧悬浮面板中的“📥 从本页提取档案”。</li>
+        <li>查看预览中的新增字段、表格行、待分类项和冲突；确认后才会写入本地档案。</li>
+        <li>继续打开其他资料页并重复操作。已有档案值和已锁定字段不会被冲突值自动覆盖。</li>
+      </ol>
+
+      <h3>方式二：登录后会话爬取（学校白名单）</h3>
+      <div class="table-scroll">
+        <table class="support-table">
+          <thead><tr><th>学校与项目</th><th>状态</th><th>可读取范围</th><th>使用方法</th></tr></thead>
+          <tbody>
+            <tr>
+              <td data-label="学校与项目">南京航空航天大学<br><span class="meta">夏令营 / 推免个人信息</span></td>
+              <td data-label="状态"><span class="status verified">已验证</span></td>
+              <td data-label="可读取范围">基本信息、家庭主要成员、学习信息、外语水平、学习和工作经历、学术成果、奖励情况，共 7 个栏目。</td>
+              <td data-label="使用方法">登录 <code>yzsbm.nuaa.edu.cn</code>，进入能看到上述栏目链接的个人信息页面，点击“🧭 登录后会话爬取”，完成后核对预览并确认合并。</td>
+            </tr>
+            <tr>
+              <td data-label="学校与项目">北京邮电大学<br><span class="meta">预推免</span></td>
+              <td data-label="状态"><span class="status experimental">实验性</span></td>
+              <td data-label="可读取范围">报名记录及身份、学业信息相关的多页表单白名单。</td>
+              <td data-label="使用方法">登录后进入预推免报名记录或申请信息页，再点击“🧭 登录后会话爬取”。如提示栏目不完整，不会合并部分结果，请改用“从本页提取档案”逐页操作。</td>
+            </tr>
+            <tr>
+              <td data-label="学校与项目">南京理工大学<br><span class="meta">预推免</span></td>
+              <td data-label="状态"><span class="status experimental">实验性</span></td>
+              <td data-label="可读取范围">预推免报名信息的多页只读白名单。</td>
+              <td data-label="使用方法">登录后进入预推免报名信息页，点击“🧭 登录后会话爬取”。如页面结构或登录状态不匹配，工具会停止且不合并，请改为逐页提取。</td>
+            </tr>
+            <tr>
+              <td data-label="学校与项目">北京师范大学<br><span class="meta">预推免</span></td>
+              <td data-label="状态"><span class="status experimental">实验性</span></td>
+              <td data-label="可读取范围">登录后报名相关页面的固定只读白名单；注册、验证码及登录操作不在采集范围。</td>
+              <td data-label="使用方法">人工登录并进入预推免报名表后点击“🧭 登录后会话爬取”。若白名单栏目未生成有效快照，整次结果不会写入档案，请使用逐页提取。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="meta">“已验证”表示该会话爬取流程已有专项验收；“实验性”表示代码已配置同源只读白名单，但尚不能承诺目标站点当前页面结构始终兼容。实验性学校更推荐先备份档案，并优先使用“从本页提取档案”。</p>
+
+      <h3>会话爬取如何保护你的资料</h3>
+      <ul>
+        <li>只使用当前已经登录的浏览器会话，不读取 Cookie 值，也不保存学校页面中的账号专属动态令牌。</li>
+        <li>只请求同一 HTTPS 站点、且已写入适配包白名单的资料页；跨域地址以及登录、注册、找回密码、上传、保存、删除、提交等路径会被拒绝。</li>
+        <li>栏目缺失、登录失效、跳转异常、页面结构变化或超时时，整次会话爬取都不会合并部分结果。</li>
+        <li>点击“登录后会话爬取”期间再次点击该按钮可以取消；取消后不会继续读取后续栏目。</li>
+        <li>确认合并时只补充空缺内容并锁定新导入字段；已有值发生冲突时保留原档案，表格重复行会去重。</li>
+      </ul>
+      <div class="notice warn">不会提取或填写密码、验证码、短信验证码和附件；不会自动保存、进入下一步或提交报名。学校网站经常改版，页面显示“未完成”时请不要反复点击，改用逐页提取并人工核对。</div>
     </section>
 
     <section class="card">
