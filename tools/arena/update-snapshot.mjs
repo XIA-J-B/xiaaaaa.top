@@ -1,0 +1,21 @@
+// Run locally, never as a visitor API. No commit/push and no raw ledger is written to the site.
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {buildSnapshot} from './snapshot.mjs';
+import {validateSnapshot,summarize} from '../../arena/model.mjs';
+const argv=process.argv.slice(2),i=argv.indexOf('--inspector');
+if(i<0||!argv[i+1])throw Error('Usage: node tools/arena/update-snapshot.mjs --inspector "path-to-inspector"');
+const root=path.resolve(argv[i+1]);
+const {factsFor}=await import(pathToFileURL(path.join(root,'usage-site/lib/stats.js')));
+const {canonicalFacts}=await import(pathToFileURL(path.join(root,'usage-site/lib/trace-facts.js')));
+const get=async route=>{const r=await fetch('http://127.0.0.1:27362'+route,{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Local site HTTP '+r.status);return r.json();};
+const health=await get('/api/health');if(health.name!=='arena-usage-site')throw Error('Unexpected local server');
+const ledger=await get('/api/export.json');
+if(ledger.schemaVersion!==1||!Array.isArray(ledger.conversations)||!Array.isArray(ledger.battles))throw Error('Unexpected ledger format');
+const facts=canonicalFacts([...ledger.conversations.flatMap(r=>factsFor('conversation',r)),...ledger.battles.flatMap(r=>factsFor('battle',r))]);
+const result=buildSnapshot(facts);validateSnapshot(result);
+const output=fileURLToPath(new URL('../../arena/snapshot.json',import.meta.url));
+const temp=output+'.tmp';fs.writeFileSync(temp,JSON.stringify(result));fs.renameSync(temp,output);
+const totals=summarize(result.rows);
+console.log(JSON.stringify({ok:true,publicRows:result.rows.length,generatedAt:result.generatedAt,calls:totals.calls,traceTokens:totals.traceTokens,traceCost:totals.traceCost}));

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="description" content="Arena 模型用量的公开汇总快照：Token、调用次数、trace 费用与趋势。"><title>Arena 数据统计 · XIA的小站</title><link rel="stylesheet" href="style.css"></head>
+<body><main><header><div><a class="back" href="/">← XIA的小站</a><h1>Arena 数据统计</h1><p class="muted">公开汇总快照 <span class="dot">·</span> 模型用量与趋势</p></div><button id="refresh" type="button">刷新快照</button></header>
+<div id="status" role="status" class="status">正在读取公开快照…</div>
+<section class="filters" aria-label="统计筛选"><label>时间范围<select id="range"><option value="all">全部记录</option><option value="7">最近 7 天（截至快照）</option><option value="30">最近 30 天（截至快照）</option><option value="90">最近 90 天（截至快照）</option></select></label><label>模型<select id="model"><option value="">全部模型</option></select></label><label>模式<select id="mode"><option value="all">全部模式</option><option value="agent">Agent</option><option value="battle">Battle</option></select></label></section>
+<section class="kpis" id="kpis" aria-label="用量总览"></section>
+<section class="card"><div class="heading"><h2>各模型 Token 占比</h2><span class="muted">trace Token</span></div><div id="distribution" class="distribution"></div></section>
+<section class="card"><div class="heading"><h2>每日 Token 用量</h2><span class="muted">观测日期 · 最近 90 个观测日</span></div><div id="trend"></div></section>
+<section class="card"><div class="heading"><h2>模型明细</h2><span class="muted">点击模型筛选</span></div><div class="table-scroll"><table><thead><tr><th>模型</th><th>调用次数</th><th>trace Token</th><th>占比</th><th>trace 费用</th></tr></thead><tbody id="models"></tbody></table></div></section>
+<footer>公开页仅展示汇总数据 · trace 费用非账户实际扣款 · <a href="/">返回主站</a></footer></main><script type="module" src="app.js"></script></body></html>
