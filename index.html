@@ -98,7 +98,7 @@
        原理：背景封面的可见贡献约为“封面透明度 × (1 - 卡片不透明度)”。
        桌面端卡片使用约 80% 白色遮罩和 2px 轻模糊，让封面若隐若现且保持正文清晰。 */
     main{padding:56px 0 70px}
-    .card{position:relative;isolation:isolate;margin:0 0 30px;padding:30px;color:var(--ink);
+    .card{position:relative;isolation:isolate;margin:0 0 30px;padding:30px;color:var(--ink);scroll-margin-top:88px;
       background:#fdfcfacc;border:3px solid #000;box-shadow:10px 10px 0 #00000030;
       -webkit-backdrop-filter:blur(2px) saturate(.92);backdrop-filter:blur(2px) saturate(.92)}
     .card > *{position:relative;z-index:1}
@@ -111,8 +111,17 @@
 
     /* 项目 */
     .project{margin-top:14px;padding:18px 20px;border:2px solid #000;background:#ffffffe0}
-    .project b{font-size:17px}
+    .project h2{margin:0;font-size:20px;line-height:1.5}
     .project p{margin:5px 0 0;color:#56544e;font-size:15px}
+    .project .project-source{margin-top:10px;font-size:13px;color:#77756d}
+    .project-source a{font-weight:600}
+    .project-tools-title{margin:26px 0 0;font-size:16px}
+    .project-tools{list-style:none;margin:10px 0 0;padding:0;border:2px solid #000;background:#ffffffe0}
+    .project-tools li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;padding:16px 18px}
+    .project-tools li+li{border-top:1px solid var(--line)}
+    .project-tools h4{margin:0;font-size:16px;line-height:1.5}
+    .project-tools p{margin:4px 0 0;color:#56544e;font-size:14px}
+    .project-tools .mini-btn{white-space:nowrap}
     .tags{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0}
     .tags li{padding:2px 12px;border:1.5px solid #000;background:var(--paper);font-size:12px;font-weight:700}
     .mini-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
@@ -179,10 +188,14 @@
     @media(max-width:640px){
       /* 手机端进一步降低白色遮罩至约 76%，以较小模糊换取更好的滚动性能。 */
       .card{background:#fdfcfac2;-webkit-backdrop-filter:blur(1.5px) saturate(.92);backdrop-filter:blur(1.5px) saturate(.92)}
+      .project{padding:16px}
+      .project-tools li{grid-template-columns:minmax(0,1fr);gap:10px;padding:16px}
+      .project-tools .mini-btn{justify-self:start}
     }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
-      .cover-peek{transition:none}
+      .cover,.pop{animation:none}
+      .cover,.cover-peek{transition:none}
     }
   </style>
 </head>
@@ -242,7 +255,7 @@
       <h1>Eclipse first,<br><em>the rest nowhere.</em></h1>
       <p class="quote-by">—— XIA的小站</p>
       <div class="actions">
-        <a class="btn primary" href="https://github.com/XIA-2005">⭐ GitHub 主页</a>
+        <a class="btn primary" href="https://github.com/XIA-J-B">⭐ GitHub 主页</a>
         <a class="btn secondary" href="#projects">看看项目 ↓</a>
       </div>
     </div>
@@ -252,46 +265,51 @@
     <section class="card" id="projects">
       <span class="tab">项目</span>
       <div class="project">
-        <b>预推免填表助手</b>
+        <h2>页间 Parallel</h2>
+        <p>本地 PDF 对照翻译与阅读工作台。接入自己的 AI，在原文与译文之间同步阅读，支持版式排印、引用问答和本地笔记。</p>
+        <ul class="tags"><li>PDF 对照翻译</li><li>自带 AI 接口</li><li>Python</li><li>本地运行</li></ul>
+        <p class="project-source">基于 <a href="https://github.com/Lei-Ao/ParallelTranslation" target="_blank" rel="noopener">Lei-Ao/ParallelTranslation</a> 改进。</p>
+        <div class="mini-actions">
+          <a class="mini-btn blue" href="https://github.com/XIA-J-B/ParallelTranslation" target="_blank" rel="noopener">项目仓库与使用说明 →</a>
+        </div>
+      </div>
+      <div class="project">
+        <h2>Archify 定制增强版</h2>
+        <p>图表制作 Skill，支持十种图表、可视化编辑，以及透明背景图片、SVG、GIF 和 WebM 导出。</p>
+        <ul class="tags"><li>Agent Skill</li><li>可视化编辑</li><li>交互图表</li><li>动图导出</li></ul>
+        <p class="project-source">基于 <a href="https://github.com/tt-a1i/archify" target="_blank" rel="noopener">tt-a1i/archify 3.1.0</a> 扩展，保留原作者与 MIT 许可证。</p>
+        <div class="mini-actions">
+          <a class="mini-btn blue" href="https://github.com/XIA-J-B/archify-skill" target="_blank" rel="noopener">项目仓库与安装说明 →</a>
+        </div>
+      </div>
+      <div class="project">
+        <h2>预推免填表助手</h2>
         <p>Edge / Chrome 浏览器扩展（Manifest V3），辅助填写高校预推免、夏令营报名表。</p>
         <ul class="tags"><li>浏览器扩展</li><li>TypeScript</li><li>本地离线</li><li>免费开源</li></ul>
         <div class="mini-actions">
           <a class="mini-btn blue" href="/tuimian-autofill/">项目主页 →</a>
-          <a class="mini-btn plain" href="https://github.com/XIA-2005/tuimian-autofill">源码</a>
+          <a class="mini-btn plain" href="https://github.com/XIA-J-B/tuimian-autofill">源码</a>
         </div>
       </div>
-      <div class="project" id="arena-project">
-        <b>Arena 数据统计</b>
-        <p>登录查看实时模型用量、统计图表与完整管理功能。</p>
-        <ul class="tags"><li>模型用量</li><li>统计图表</li><li>私人访问</li></ul>
-        <div class="mini-actions">
-          <a class="mini-btn blue" href="https://arena.xiaaaaa.top/">查看统计 →</a>
-        </div>
-      </div>
-      <div class="project">
-        <b>Arena 用量统计工具包</b>
-        <p>本地优先的 Arena 用量分析工具包：浏览器插件采集，本地统计站出图表，附 Windows 启动器，记录不离开本机。</p>
-        <ul class="tags"><li>浏览器扩展</li><li>本地优先</li><li>统计图表</li><li>MIT 开源</li></ul>
-        <div class="mini-actions">
-          <a class="mini-btn blue" href="https://github.com/XIA-2005/arena-usage-kit" target="_blank" rel="noopener">项目仓库 →</a>
-        </div>
-      </div>
-      <div class="project">
-        <b>QQ AI Bot</b>
-        <p>本机运行的 QQ 白名单自动回复助手，Electron + NapCat（OneBot 11）收发消息、DeepSeek 生成回复，带用量统计后台与费用护栏。</p>
-        <ul class="tags"><li>Electron</li><li>TypeScript</li><li>DeepSeek</li><li>Windows</li></ul>
-        <div class="mini-actions">
-          <a class="mini-btn blue" href="https://github.com/XIA-2005/qq-ai-bot" target="_blank" rel="noopener">项目仓库 →</a>
-        </div>
-      </div>
-      <div class="project">
-        <b>Computer Use（Windows）</b>
-        <p>面向多模态模型的 Windows 电脑操作原语工具包：截图给模型看、脚本精确点击/输入，另附 Chrome DevTools Protocol 浏览器层（cu.exe）。</p>
-        <ul class="tags"><li>Windows</li><li>PowerShell·C#</li><li>CDP 浏览器层</li><li>免安装</li></ul>
-        <div class="mini-actions">
-          <a class="mini-btn blue" href="https://github.com/XIA-2005/computer-use-windows" target="_blank" rel="noopener">项目仓库 →</a>
-        </div>
-      </div>
+      <h3 class="project-tools-title">其他工具与插件</h3>
+      <ul class="project-tools">
+        <li>
+          <div><h4>DSH 用量统计</h4><p>DeepSeek Harness 插件，展示 Token 构成、费用估算、工具调用次数与耗时，支持历史回填和日期筛选。</p></div>
+          <a class="mini-btn plain" href="https://github.com/XIA-J-B/dsh-usage-stats" target="_blank" rel="noopener" aria-label="DSH 用量统计：项目仓库与安装说明">仓库与安装 →</a>
+        </li>
+        <li>
+          <div><h4>DSH Computer Use</h4><p>为 DeepSeek Harness 提供 Windows 桌面和浏览器操作，支持截图、点击输入、OCR、UI Automation 与 CDP。</p></div>
+          <a class="mini-btn plain" href="https://github.com/XIA-J-B/dsh-computer-use" target="_blank" rel="noopener" aria-label="DSH Computer Use：项目仓库与安装说明">仓库与安装 →</a>
+        </li>
+        <li>
+          <div><h4>QQ AI Bot</h4><p>本机运行的 QQ 白名单自动回复助手，通过 NapCat 收发消息、DeepSeek 生成回复，带用量统计与费用护栏。</p></div>
+          <a class="mini-btn plain" href="https://github.com/XIA-J-B/qq-ai-bot" target="_blank" rel="noopener" aria-label="QQ AI Bot：项目仓库与使用说明">仓库与使用 →</a>
+        </li>
+        <li>
+          <div><h4>Computer Use Windows</h4><p>面向多模态模型的 Windows 操作工具包：截图、精确点击与输入，附 CDP 浏览器操作工具。</p></div>
+          <a class="mini-btn plain" href="https://github.com/XIA-J-B/computer-use-windows" target="_blank" rel="noopener" aria-label="Computer Use Windows：项目仓库与使用说明">仓库与使用 →</a>
+        </li>
+      </ul>
     </section>
 
     <section class="card" id="articles">
@@ -335,9 +353,9 @@
     <section class="card" id="links">
       <span class="tab">链接 · 找到我</span>
       <ul class="links">
-        <li>🧑‍💻 GitHub：<a href="https://github.com/XIA-2005" target="_blank">github.com/XIA-2005</a></li>
+        <li>🧑‍💻 GitHub：<a href="https://github.com/XIA-J-B" target="_blank">github.com/XIA-J-B</a></li>
         <li>✍️ CSDN 博客：<a href="https://blog.csdn.net/Xjb200512?type=blog" target="_blank">blog.csdn.net/Xjb200512</a></li>
-        <li>🐛 问题与建议：到 <a href="https://github.com/XIA-2005/tuimian-autofill/issues" target="_blank">GitHub Issues</a> 提交，字段报告不包含个人信息</li>
+        <li>🐛 问题与建议：到 <a href="https://github.com/XIA-J-B/tuimian-autofill/issues" target="_blank">GitHub Issues</a> 提交，字段报告不包含个人信息</li>
       </ul>
     </section>
   </main>
@@ -374,7 +392,19 @@
     var feedBtn = document.getElementById('feedBtn');
     document.getElementById('feedTotal').textContent = feedPool.length;
     var WKEY = 'xiaaaaa_wins_unlocked';
-    var unlocked = Math.min(parseInt(localStorage.getItem(WKEY) || '0', 10) || 0, feedPool.length);
+    var unlocked = 0;
+    try {
+      unlocked = Math.max(0, Math.min(parseInt(localStorage.getItem(WKEY) || '0', 10) || 0, feedPool.length));
+    } catch (error) {
+      // 浏览器禁用存储时，本页仍可投喂；仅不保存跨次访问的进度。
+    }
+    function saveFeedProgress() {
+      try {
+        localStorage.setItem(WKEY, unlocked);
+      } catch (error) {
+        // 存储不可用或已满时，不阻断本轮互动。
+      }
+    }
     function makeItem(item) {
       var el = document.createElement('div');
       if (item.t === 'honor') {
@@ -403,14 +433,17 @@
     feedBtn.addEventListener('click', function () {
       if (unlocked >= feedPool.length) return;
       unlocked++;
-      localStorage.setItem(WKEY, unlocked);
+      saveFeedProgress();
       renderFeed();
       var last = feedStack.lastElementChild;
-      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (last) last.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'nearest'
+      });
     });
     document.getElementById('resetBtn').addEventListener('click', function () {
       unlocked = 0;
-      localStorage.setItem(WKEY, 0);
+      saveFeedProgress();
       renderFeed();
     });
     renderFeed();
@@ -422,7 +455,7 @@
         if (eggBusy) return;
         eggBusy = true;
         unlocked = feedPool.length;
-        localStorage.setItem(WKEY, unlocked);
+        saveFeedProgress();
         renderFeed();
         var ov = document.createElement('div');
         ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#05070acc;display:flex;align-items:center;justify-content:center';

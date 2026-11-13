@@ -30,7 +30,7 @@
       <p class="lead">辅助填写高校预推免、夏令营报名表。个人档案只保存在本机浏览器中，不自动提交，不处理验证码与登录密码。</p>
       <div class="actions">
         <a class="btn primary" id="downloadButton" href="./tuimian-autofill-v2.0.6.zip" download="tuimian-autofill-v2.0.6.zip">⬇ 下载 v2.0.6 安装包</a>
-        <a class="btn secondary" href="https://github.com/XIA-2005/tuimian-autofill">查看 GitHub 源码</a>
+        <a class="btn secondary" href="https://github.com/XIA-J-B/tuimian-autofill">查看 GitHub 源码</a>
       </div>
       <div class="stats">
         <div class="stat"><div class="num" id="downloadCount" aria-label="累计下载次数">0</div><div class="label">GitHub Release 累计下载次数</div></div>
@@ -173,7 +173,7 @@
         <li>南航会话采集只读取七个白名单资料页；登录失效、栏目缺失或页面结构变化时会停止对应页面，不会误合并。</li>
         <li>安装包由本站直接提供，可使用页首 SHA-256 校验文件完整性。</li>
       </ul>
-      <p><a href="https://github.com/XIA-2005/tuimian-autofill/blob/main/PRIVACY.md">查看完整隐私说明</a></p>
+      <p><a href="https://github.com/XIA-J-B/tuimian-autofill/blob/main/PRIVACY.md">查看完整隐私说明</a></p>
     </section>
 
     <section class="card">
@@ -183,7 +183,7 @@
       <h3>部分字段没有自动填写？</h3>
       <p>先检查档案中是否有对应内容。下拉框选项与档案不一致时，工具会保守跳过并标红，请人工选择。</p>
       <h3>如何反馈不支持的学校页面？</h3>
-      <p>使用悬浮面板的“复制字段报告”功能，然后到 <a href="https://github.com/XIA-2005/tuimian-autofill/issues">GitHub Issues</a> 提交。字段报告不包含已填写的个人信息。</p>
+      <p>使用悬浮面板的“复制字段报告”功能，然后到 <a href="https://github.com/XIA-J-B/tuimian-autofill/issues">GitHub Issues</a> 提交。字段报告不包含已填写的个人信息。</p>
     </section>
   </main>
 
@@ -217,7 +217,7 @@
 
     /**
      * 功能：读取仓库全部公开 Release 资产的 download_count 并求和。
-     * 说明：下载按钮直连 GitHub Release 资产，因此后续每次下载都会进入官方统计。
+     * 说明：仅统计 GitHub Release 资产下载量，本站本地安装包的下载不计入此数值。
      */
     async function loadDownloadCount() {
       const statusNode = document.getElementById('statsStatus');
@@ -227,7 +227,7 @@
       try {
         let total = 0;
         for (let page = 1; page <= 10; page += 1) {
-          const response = await fetch(`https://api.github.com/repos/XIA-2005/tuimian-autofill/releases?per_page=100&page=${page}`, {
+          const response = await fetch(`https://api.github.com/repos/XIA-J-B/tuimian-autofill/releases?per_page=100&page=${page}`, {
             headers: {
               Accept: 'application/vnd.github+json',
               'X-GitHub-Api-Version': '2022-11-28'
@@ -247,7 +247,11 @@
           if (releases.length < 100) break;
         }
         animateDownloadCount(total);
-        localStorage.setItem(cacheKey, JSON.stringify({ value: total, at: Date.now() }));
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify({ value: total, at: Date.now() }));
+        } catch {
+          // 缓存不可用时仍显示本次成功读取的下载量。
+        }
         statusNode.textContent = '数据来自 GitHub 公开 Releases API，统计全部历史版本。';
       } catch (error) {
         let cached = null;
